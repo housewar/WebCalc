@@ -4,7 +4,7 @@ $(document).ready(function(){
     var numArr = [];
     var op;
     this.currentNum = 0;
-    this.subTotal = 0;
+    this.subTotal = false;
     this.total = 0;
     var fin = false;
     
@@ -19,17 +19,26 @@ $(document).ready(function(){
     	}
     }
     Calculator.prototype.clearEntry = function(){
-    	numArr = [];
-    	this.currentNum = 0;
+      numArr = [];
+      this.currentNum = 0;
+    }
+    Calculator.prototype.allClear = function(){
+      numArr = [];
+      this.currentNum = 0;
+      this.subTotal = false;
+      this.total = 0;
     }
     Calculator.prototype.setOp = function(operation){
     	op = operation;
-    	this.subTotal = this.currentNum;
+    	this.result(false);
     	numArr = [];
     }
     Calculator.prototype.result = function(fin){
     	
-    	switch (op) {
+    	if (this.subTotal === false) {
+    	  this.subTotal = this.currentNum
+    	} else {	
+    	  switch (op) {
     		case '+':
     		  this.sum();
     		  break;
@@ -42,12 +51,13 @@ $(document).ready(function(){
     		case '*':
     		  this.product();
     		  break;
+    	  }
     	}
     	
-    	if (fin = true) {
+    	if (fin === true) {
     		this.total = this.subTotal;
     		this.currentNum = this.subTotal;
-    		this.subTotal = 0;
+    		this.subTotal = false;
     		numArr = [];
     	}
     	
@@ -63,6 +73,9 @@ $(document).ready(function(){
     }
     Calculator.prototype.product = function(){
       this.subTotal *= this.currentNum;
+    }
+    Calculator.prototype.percent = function(){
+      this.currentNum *= (this.subTotal / 100);
     }
   }
   
@@ -88,16 +101,32 @@ $(document).ready(function(){
       	myCalc.clearEntry();
       	$(".display").text(0);
         break;
+      case "AC":
+      	$(".mathSentence").text("");
+      	myCalc.allClear();
+      	$(".display").text(0);
+      	$(".operation").text("");
+        break;
       case "+":
       case "-":
       case "/":
       case "*":
       	myCalc.setOp(func);
       	$(".operation").text(func);
+      	if (myCalc.subTotal != 0){
+          $(".mathSentence").text(myCalc.subTotal);
+        }
+        break;
+	  case "%":
+        myCalc.percent();
+        $(".display").text(myCalc.currentNum);
+        $(".operation").text(op);
         break;
       case "=":
+        $(".mathSentence").text("");
         myCalc.result(true);
         $(".display").text(myCalc.total);
+        $(".operation").text("");
         break;
     }
   });
