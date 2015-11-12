@@ -2,14 +2,22 @@ $(document).ready(function(){
   
   function Calculator(){
     var numArr = [];
-    var op;
+    this.op = "";
     this.currentNum = 0;
-    this.subTotal = false;
+    this.subTotal;
     this.total = 0;
     var fin = false;
+    var solve = false;
+    var first = true;
     
     Calculator.prototype.addDigit = function(num){
     	numArr.push(num);
+    	numArr = Number(numArr.join("")).toString().split("").slice(0,10); //chops off leading zeroes and limits number of digits.
+    	this.currentNum = Number(numArr.join(""));
+    	solve = true;
+    }
+    Calculator.prototype.delDigit = function(){
+    	numArr.pop();
     	numArr = Number(numArr.join("")).toString().split("").slice(0,10); //chops off leading zeroes and limits number of digits.
     	this.currentNum = Number(numArr.join(""));
     }
@@ -24,21 +32,26 @@ $(document).ready(function(){
     }
     Calculator.prototype.allClear = function(){
       numArr = [];
+      this.op = "";
       this.currentNum = 0;
-      this.subTotal = false;
+      this.subTotal = 0;
       this.total = 0;
+      first = true;
     }
     Calculator.prototype.setOp = function(operation){
-    	op = operation;
     	this.result(false);
+    	this.op = operation;
+    	solve = false;
     	numArr = [];
+    	this.currentNum = 0;
     }
     Calculator.prototype.result = function(fin){
     	
-    	if (this.subTotal === false) {
+    	if (first) {
+    	  first = false;
     	  this.subTotal = this.currentNum
-    	} else {	
-    	  switch (op) {
+    	} else if (solve === true ){
+    	  switch (this.op) {
     		case '+':
     		  this.sum();
     		  break;
@@ -55,9 +68,11 @@ $(document).ready(function(){
     	}
     	
     	if (fin === true) {
+    		this.op = "";
     		this.total = this.subTotal;
     		this.currentNum = this.subTotal;
-    		this.subTotal = false;
+    		this.subTotal = 0;
+    		first = true;
     		numArr = [];
     	}
     	
@@ -81,11 +96,11 @@ $(document).ready(function(){
   
   var myCalc = new Calculator;
   var func;
-  $(".display").text(0);
+  $(".lowerDisplay").text("");
   
   $(".btn-container .digit").on("click",function(){
     myCalc.addDigit($(this).attr('value'));
-    $(".display").text(myCalc.currentNum);
+    $(".lowerDisplay").text(myCalc.op + myCalc.currentNum);
   });
   $(".btn-container .function").on("click",function(){
     func = $(this).attr('value');
@@ -94,39 +109,40 @@ $(document).ready(function(){
       case ".":
         myCalc.addDecimal();
           if (Math.floor(myCalc.currentNum) === myCalc.currentNum){
-            $(".display").text(myCalc.currentNum + ".");
+            $(".lowerDisplay").text(myCalc.op + myCalc.currentNum + ".");
           }
         break;
       case "CE":
       	myCalc.clearEntry();
-      	$(".display").text(0);
+      	$(".lowerDisplay").text("");
         break;
       case "AC":
-      	$(".mathSentence").text("");
+      	$(".lowerDisplay").text("");
       	myCalc.allClear();
-      	$(".display").text(0);
-      	$(".operation").text("");
+      	$(".upperDisplay").text("");
+        break;
+      case "<":
+      	myCalc.delDigit();
+      	$(".lowerDisplay").text(myCalc.op + myCalc.currentNum);
         break;
       case "+":
       case "-":
       case "/":
       case "*":
       	myCalc.setOp(func);
-      	$(".operation").text(func);
       	if (myCalc.subTotal != 0){
-          $(".mathSentence").text(myCalc.subTotal);
+          $(".upperDisplay").text(myCalc.subTotal);
         }
+        $(".lowerDisplay").text(func);
         break;
 	  case "%":
         myCalc.percent();
-        $(".display").text(myCalc.currentNum);
-        $(".operation").text(op);
+        $(".lowerDisplay").text(myCalc.op + myCalc.currentNum);
         break;
       case "=":
-        $(".mathSentence").text("");
+        $(".lowerDisplay").text("");
         myCalc.result(true);
-        $(".display").text(myCalc.total);
-        $(".operation").text("");
+        $(".upperDisplay").text(myCalc.total);
         break;
     }
   });

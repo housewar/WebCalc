@@ -13,18 +13,18 @@
 
 <body>
   <main>
+    <h1 style="text-align:center; color:white; font-family:monospace">freeCodeCamp</h1>
     <article class="calculator">
       <div class="display-container">
-      	<span class="mathSentence"></span>
-      	<span class="operation"></span>
-      	<span class="display"></span>
+      	<span class="upperDisplay"></span>
+      	<span class="lowerDisplay"></span>
       </div>
         <div class="btn-container">
           <div class="row-one">
-            <div class="btn-one"><button class="function" value="AC"><span>AC</span></button>
-              <div class="btn-n"><button class="function" value="CE"><span>CE</span></button>
-                <div class="btn-n"><button class="function" value="%"><span>%</span></button>
-                  <div class="btn-n"><button class="function" value="/"><span>/</span></button>
+            <div class="btn-one"><button id="ac" class="function" value="AC"><span>AC</span></button>
+              <div class="btn-n"><button id="ce" class="function" value="CE"><span>CE</span></button>
+                <div class="btn-n"><button id="del" class="function" value="<"><span><</span></button>
+                  <div class="btn-n"><button id="pct" class="function" value="%"><span>%</span></button>
                   </div>
                 </div>
               </div>
@@ -33,7 +33,7 @@
               <div class="btn-one"><button class="digit" value="7"><span>7</span></button>
                 <div class="btn-n"><button class="digit" value="8"><span>8</span></button>
                   <div class="btn-n"><button class="digit" value="9"><span>9</span></button>
-                    <div class="btn-n"><button class="function" value="*"><span>x</span></button>
+                    <div class="btn-n"><button id="div" class="function" value="/"><span>/</span></button>
                     </div>
                   </div>
                 </div>
@@ -42,7 +42,7 @@
                 <div class="btn-one"><button class="digit" value="4"><span>4</span></button>
                   <div class="btn-n"><button class="digit" value="5"><span>5</span></button>
                     <div class="btn-n"><button class="digit" value="6"><span>6</span></button>
-                      <div class="btn-n"><button class="function" value="-"><span>-</span></button>
+                      <div class="btn-n"><button id="mult" class="function" value="*"><span>x</span></button>
                       </div>
                     </div>
                   </div>
@@ -51,14 +51,16 @@
                   <div class="btn-one"><button class="digit" value="1"><span>1</span></button>
                     <div class="btn-n"><button class="digit" value="2"><span>2</span></button>
                       <div class="btn-n"><button class="digit" value="3"><span>3</span></button>
+                        <div class="btn-n"><button id="sub" class="function" value="-"><span>-</span></button>
+                        </div>
                       </div>
                     </div>
                   </div>                  
                   <div class="row-n">
                     <div class="btn-one"><button class="digit" value="0"><span>0</span></button>
-                      <div class="btn-n"><button  class="function" value="."><span>.</span></button>
-                        <div class="btn-n"><button class="function" value="="><span>=</span></button>
-                          <div class="btn-plus"><button class="function" value="+"><span>+</span></button>
+                      <div class="btn-n"><button  id="dec" class="function" value="."><span>.</span></button>
+                        <div class="btn-n"><button id="equ" class="function" value="="><span>=</span></button>
+                          <div class="btn-n"><button id="add" class="function" value="+"><span>+</span></button>
                           </div>
                         </div>
                       </div>

@@ -1,3 +1,21 @@
+body {
+background: #444;
+}
+button {
+font-size: 24px;
+font-family: sans-serif;
+color: white;
+border: none;
+}
+.digit, #dec, #equ {
+background: #222;
+}
+#ac, #ce, #del {
+  background: #F44336;
+}
+#pct, #div, #mult, #add, #sub {
+  background: #009688;
+}
 .calculator {
   margin: 0 auto;
   margin-top: 20px;
@@ -13,35 +31,25 @@
   left: 0;
   top: 0;
 }
-.mathSentence {
+.upperDisplay {
   position: absolute;
-  height: 20%;
-  width: 90%;
+  height: 50%;
+  width: 100%;
   top: 0;
   left: 0;
   text-align: right;
-  font-size: 16px;
-  line-height: 18px;
+  font-size: 36px;
+  line-height: 45px;
 }
-.operation {
+.lowerDisplay {
   position: absolute;
-  height: 100%;
-  width: 6%;
-  top: 0;
-  left: 90%;
-  text-align: right;
-  font-size: 16px;
-  line-height: 18px;
-}
-.display {
-  position: absolute;
-  height: 80%;
-  width: 98%;
-  top: 25%;
+  height: 50%;
+  width: 100%;
+  top: 50%;
   left: 0;
   text-align: right;
-  font-size: 48px;
-  line-height: 72px;
+  font-size: 36px;
+  line-height: 45px;
 }
 .btn-container {
   height: 80%;
