@@ -6,13 +6,19 @@ $(document).ready(function(){
     this.currentNum = 0;
     this.subTotal;
     this.total = 0;
+    this.displayNum = "0";
     var fin = false;
     var solve = false;
     var first = true;
     
     Calculator.prototype.addDigit = function(num){
     	numArr.push(num);
-    	numArr = Number(numArr.join("")).toString().split("").slice(0,10); //chops off leading zeroes and limits number of digits.
+    	if (numArr.indexOf(".") === -1) {
+    	numArr = Number(numArr.join("")).toString().split("").slice(0,10); //prevents leading zeroes.
+    	} else { //allows leading zeroes after a decimal
+    	numArr = numArr.slice(0,10); //limits number of digits.
+    	}
+    	this.displayNum = numArr.join("");
     	this.currentNum = Number(numArr.join(""));
     	solve = true;
     }
@@ -20,20 +26,29 @@ $(document).ready(function(){
     	numArr.pop();
     	numArr = Number(numArr.join("")).toString().split("").slice(0,10); //chops off leading zeroes and limits number of digits.
     	this.currentNum = Number(numArr.join(""));
+    	this.displayNum = numArr.join("");
     }
     Calculator.prototype.addDecimal = function(){
-    	if (numArr.indexOf(".") === -1){
-    		numArr.push(".");
+      if (numArr.indexOf(".") === -1){
+        if (numArr.length === 0){
+          numArr.push(0);
+          numArr.push(".");
+        } else {
+    	  numArr.push(".");
+    	}
+    	this.displayNum = numArr.join("");
     	}
     }
     Calculator.prototype.clearEntry = function(){
       numArr = [];
       this.currentNum = 0;
+      this.displayNum = "0";
     }
     Calculator.prototype.allClear = function(){
       numArr = [];
       this.op = "";
       this.currentNum = 0;
+      this.displayNum = "0";
       this.subTotal = 0;
       this.total = 0;
       first = true;
@@ -44,6 +59,7 @@ $(document).ready(function(){
     	solve = false;
     	numArr = [];
     	this.currentNum = 0;
+    	this.displayNum = "0";
     }
     Calculator.prototype.result = function(fin){
     	
@@ -79,18 +95,25 @@ $(document).ready(function(){
     }
     Calculator.prototype.sum = function(){
       this.subTotal += this.currentNum;
+      this.subTotal = Number(this.subTotal.toFixed(9));
     }
     Calculator.prototype.diff = function(){
       this.subTotal -= this.currentNum;
+      this.subTotal = Number(this.subTotal.toFixed(9));
     }
     Calculator.prototype.quotient = function(){
       this.subTotal /= this.currentNum;
+      this.subTotal = Number(this.subTotal.toFixed(9));
     }
     Calculator.prototype.product = function(){
       this.subTotal *= this.currentNum;
+      this.subTotal = Number(this.subTotal.toFixed(9));
     }
     Calculator.prototype.percent = function(){
-      this.currentNum *= (this.subTotal / 100);
+      this.currentNum *= this.subTotal / 100;
+      this.currentNum = Number(this.currentNum.toFixed(9));
+      this.displayNum = this.currentNum;
+      this.subTotal = Number(this.subTotal.toFixed(9));
     }
   }
   
@@ -100,7 +123,7 @@ $(document).ready(function(){
   
   $(".btn-container .digit").on("click",function(){
     myCalc.addDigit($(this).attr('value'));
-    $(".lowerDisplay").text(myCalc.op + myCalc.currentNum);
+    $(".lowerDisplay").text(myCalc.op + myCalc.displayNum);
   });
   $(".btn-container .function").on("click",function(){
     func = $(this).attr('value');
@@ -109,7 +132,7 @@ $(document).ready(function(){
       case ".":
         myCalc.addDecimal();
           if (Math.floor(myCalc.currentNum) === myCalc.currentNum){
-            $(".lowerDisplay").text(myCalc.op + myCalc.currentNum + ".");
+            $(".lowerDisplay").text(myCalc.op + myCalc.displayNum);
           }
         break;
       case "CE":
@@ -123,7 +146,7 @@ $(document).ready(function(){
         break;
       case "<":
       	myCalc.delDigit();
-      	$(".lowerDisplay").text(myCalc.op + myCalc.currentNum);
+      	$(".lowerDisplay").text(myCalc.op + myCalc.displayNum);
         break;
       case "+":
       case "-":
@@ -137,7 +160,7 @@ $(document).ready(function(){
         break;
 	  case "%":
         myCalc.percent();
-        $(".lowerDisplay").text(myCalc.op + myCalc.currentNum);
+        $(".lowerDisplay").text(myCalc.op + myCalc.displayNum);
         break;
       case "=":
         $(".lowerDisplay").text("");
