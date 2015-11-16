@@ -62,7 +62,6 @@ $(document).ready(function(){
       this.displayNum = "0";
     }
     Calculator.prototype.result = function(fin){
-      
       if (first) {
         first = false;
         this.subTotal = this.currentNum;
@@ -79,6 +78,9 @@ $(document).ready(function(){
           break;
         case '*':
           this.product();
+          break;
+        case '%':
+          this.percent();
           break;
         }
       }
@@ -106,19 +108,22 @@ $(document).ready(function(){
       this.subTotal = Number(this.subTotal.toFixed(9));
     }
     Calculator.prototype.product = function(){
+      console.log(this.subTotal);
+      console.log(this.currentNum);
       this.subTotal *= this.currentNum;
       this.subTotal = Number(this.subTotal.toFixed(9));
     }
     Calculator.prototype.percent = function(){
-      this.currentNum *= this.subTotal / 100;
-      this.currentNum = Number(this.currentNum.toFixed(9));
-      this.displayNum = this.currentNum;
+      console.log((this.subTotal)*(this.currentNum/100));
+      this.subTotal *= this.currentNum / 100;
       this.subTotal = Number(this.subTotal.toFixed(9));
+      console.log(this.subTotal);
+      this.currentNum = this.subTotal;
     }
     Calculator.prototype.sqr2 = function(){
       this.subTotal = Math.sqrt(this.currentNum);
       this.subTotal = Number(this.subTotal.toFixed(9));
-      this.currentNum = this.subTotal,
+      this.currentNum = this.subTotal;
       numArr = [];
     }
   }
@@ -165,8 +170,11 @@ $(document).ready(function(){
         $(".lowerDisplay").text(func);
         break;
      case "%":
-        myCalc.percent();
-        $(".lowerDisplay").text(myCalc.op + myCalc.displayNum);
+        myCalc.setOp(func);
+        if (myCalc.subTotal != 0){
+          $(".upperDisplay").text(myCalc.subTotal);
+        }
+        $(".lowerDisplay").text(func);
         break;
 
      case "sqr2":
