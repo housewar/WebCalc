@@ -14,7 +14,7 @@ background: #222;
 #ac, #ce, #del {
   background: #F44336;
 }
-#pct, #div, #mult, #add, #sub {
+#pct, #div, #mult, #add, #sub, #sqr2, #sqrN, #pot2, #potN{
   background: #009688;
 }
 .calculator {
@@ -23,7 +23,7 @@ background: #222;
   background: #fff;
   position: relative;
   height: 450px;
-  width: 288px;
+  width: 320px;
 }
 .display-container {
   height: 20%;
@@ -75,7 +75,7 @@ background: #222;
 }
 .btn-one {
   height: 100%;
-  width: 25%;
+  width: 20%;
   position: absolute;
   top: 0;
   left: 0;
